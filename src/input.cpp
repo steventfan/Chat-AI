@@ -5,11 +5,13 @@
 
 int main()
 {
-    std::cout << "Initializing AI Database" << std::endl;
-
+    std::string file = "data.txt";
     std::ifstream data;
 
-    data.open("inputs/data.txt");
+    std::cout << "Initializing AI Database" << std::endl;
+
+    file = "inputs/" + file;
+    data.open(file);
     if(!data)
     {
         std::cout << "Failed to open file data.txt" << std::endl;

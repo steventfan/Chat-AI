@@ -1,14 +1,14 @@
-#ifndef CHAT_H
-#define CHAT_H
+#ifndef TEMPLATE_H
+#define TEMPLATE_H
 
 #include <string>
 #include <vector>
 
-class Chat
+class Template
 {
     public:
-        Chat(std::vector<std::string>, std::vector<std::string>);
-        ~Chat();
+        Template(std::vector<std::string>, std::vector<std::string>);
+        ~Template();
     private:
         std::vector<std::string> templates;
         std::vector<std::string> response;
