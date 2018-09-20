@@ -12,6 +12,7 @@ class Template
     private:
         std::vector<std::string> templates;
         std::vector<std::string> response;
+        std::vector<std::string> words;
 };
 
 #endif
