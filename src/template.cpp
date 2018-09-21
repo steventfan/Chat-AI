@@ -13,7 +13,11 @@ Template::Template(std::vector<std::string> templateInput, std::vector<std::stri
         {
             words.push_back(templates.at(0).substr(index, found - index - 1) );
         }
-        index = found;
+        index = found + 1;
+    }
+    if(index < templates.at(0).size() )
+    {
+        words.push_back(templates.at(0).substr(index, templates.at(0).size() - index) );
     }
 }
 
