@@ -4,6 +4,12 @@ Written in C++
 
 ## Versions
 
+### ***22/9/2018***
+* Implemented base functions for data write to file
+* Implemented AI communication
+* Implemented user communication
+* Modified AI data initialization
+
 ### ***21/9/2018***
 * Implemented parsing of user input
 * Implemented file database read and AI data initialization
