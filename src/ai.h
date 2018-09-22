@@ -2,6 +2,7 @@
 #define AI_H
 
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 
@@ -23,9 +24,9 @@ class Template
 {
     friend class AI;
     private:
-        Template(std::string);
+        Template(std::vector<std::string> &);
         ~Template();
-        std::vector<std::string> templates;
+        std::vector<std::vector<std::string> > templates;
         std::vector<std::string> response;
         std::vector<Word *> words;
 };

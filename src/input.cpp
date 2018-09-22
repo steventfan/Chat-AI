@@ -6,30 +6,41 @@
 int main()
 {
     std::string file = "data.txt";
-    std::ifstream data;
+    std::ifstream read;
 
     std::cout << "Initializing AI Database\n" << std::endl;
 
     file = "inputs/" + file;
-    data.open(file);
-    if(!data)
+    read.open(file);
+    if(!read)
     {
-        std::cout << "Failed to open file data.txt" << std::endl;
+        std::cout << "Failed to read from file " << file << std::endl;
 
         return 1;
     }
 
     std::vector<std::string> reading;
 
-    for(std::string text; getline(data, text); )
+    for(std::string text; getline(read, text); )
     {
         reading.push_back(text);
     }
-    data.close();
+    read.close();
 
     AI * container = new AI(reading);
 
     container->input();
+
+    std::ofstream write;
+
+    write.open(file, std::ofstream::out | std::ofstream::trunc);
+    if(!write)
+    {
+        std::cout << "Failed to save to file " << file << std::endl;
+
+        return 1;
+    }
+    write.close();
 
     delete container;
 
