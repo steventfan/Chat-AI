@@ -13,6 +13,7 @@ class AI
     public:
         AI(const std::vector<std::string> &);
         ~AI();
+        void test();
     private:
         std::vector<Template *> data;
 };
