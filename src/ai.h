@@ -1,6 +1,7 @@
 #ifndef AI_H
 #define AI_H
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,7 @@ class AI
     public:
         AI(const std::vector<std::string> &);
         ~AI();
-        void test();
+        void input();
     private:
         std::vector<Template *> data;
 };

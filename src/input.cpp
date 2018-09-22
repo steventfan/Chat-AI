@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 #include "ai.h"
 
 int main()
@@ -9,7 +8,7 @@ int main()
     std::string file = "data.txt";
     std::ifstream data;
 
-    std::cout << "Initializing AI Database\n" << std::endl; 
+    std::cout << "Initializing AI Database\n" << std::endl;
 
     file = "inputs/" + file;
     data.open(file);
@@ -30,7 +29,9 @@ int main()
 
     AI * container = new AI(reading);
 
-    container->test();
+    container->input();
+
+    delete container;
 
     return 0;
 }

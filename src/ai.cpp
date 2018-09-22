@@ -1,29 +1,4 @@
 #include "ai.h"
-#include <iostream>
-
-void AI::test()
-{
-    for(unsigned int i = 0; i < data.size(); i++)
-    {
-        std::cout << "Number: " << i << std::endl;
-        std::cout << "Templates:" << std::endl;
-        for(unsigned int j = 0; j < data.at(i)->templates.size(); j++)
-        {
-            std::cout << data.at(i)->templates.at(j) << std::endl;
-        }
-        std::cout << "Response:" << std::endl;
-        for(unsigned int j = 0; j < data.at(i)->response.size(); j++)
-        {
-            std::cout << data.at(i)->response.at(j) << std::endl;
-        }
-        std::cout << "Words:" << std::endl;
-        for(unsigned int j = 0; j < data.at(i)->words.size(); j++)
-        {
-            std::cout << data.at(i)->words.at(j)->word << ' ' << data.at(i)->words.at(j)->count << std::endl;
-        }
-        std::cout << std::endl;
-    }
-}
 
 AI::AI(const std::vector<std::string> & reading)
 {
@@ -43,7 +18,6 @@ AI::AI(const std::vector<std::string> & reading)
                 while( (found = data.at(dataAt)->templates.at(templatesAt).find(' ', index) ) != std::string::npos)
                 {
                     tokens.push_back(data.at(dataAt)->templates.at(templatesAt).substr(index, found - index) );
-
                     index = found + 1;
                 }
                 if(index < data.at(dataAt)->templates.at(templatesAt).size() )
@@ -110,7 +84,54 @@ AI::AI(const std::vector<std::string> & reading)
 
 AI::~AI()
 {
+    for(unsigned int dataAt = 0; dataAt < data.size(); dataAt++)
+    {
+        delete data.at(dataAt);
+    }
+}
 
+void AI::input()
+{
+    std::string text;
+
+    while(getline(std::cin, text) )
+    {
+        if(text == "/exit")
+        {
+            break;
+        }
+        for(int i = 0; i < int(text.size() ); i++)
+        {
+            if( (text.at(i) < 'A' && text.at(i) != ' ') || (text.at(i) > 'Z' && text.at(i) < 'a') || text.at(i) > 'z')
+            {
+                text.erase(i, 1);
+                i--;
+            }
+        }
+        for(unsigned int i = 0; i < text.size(); i++)
+        {
+            if(text.at(i) >= 'A' && text.at(i) <= 'Z')
+            {
+                text.at(i) = int(text.at(i) ) + 32;
+            }
+        }
+
+        std::size_t found;
+        unsigned int index = 0;
+        std::vector<std::string> tokens;
+
+        while( (found = text.find(' ', index) ) != std::string::npos)
+        {
+            tokens.push_back(text.substr(index, found - index) );
+            index = found + 1;
+        }
+        if(index < text.size() )
+        {
+            tokens.push_back(text.substr(index, text.size() - index) );
+        }
+    }
+
+    return;
 }
 
 Template::Template(std::string templates)
@@ -120,7 +141,10 @@ Template::Template(std::string templates)
 
 Template::~Template()
 {
-
+    for(unsigned int wordsAt = 0; wordsAt < words.size(); wordsAt++)
+    {
+        delete words.at(wordsAt);
+    }
 }
 
 Word::Word(std::string word)
