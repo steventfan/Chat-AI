@@ -5,6 +5,7 @@ Written in C++
 ## Versions
 
 ### ***22/9/2018***
+* Implemented automatic updating of AI data
 * Implemented base functions for data write to file
 * Implemented AI communication
 * Implemented user communication
