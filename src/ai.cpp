@@ -1,7 +1,37 @@
 #include "ai.h"
 
-AI::AI(const std::vector<std::string> & reading)
+AI::AI(const std::vector<std::string> & input)
 {
+    std::vector<std::string> reading = input;
+    for(unsigned int readingAt = 0; readingAt < reading.size(); readingAt++)
+    {
+        bool templates = true;
+
+        if(reading.at(readingAt) == "-")
+        {
+            templates = false;
+        }
+        else if(reading.at(readingAt) == "*")
+        {
+            templates = true;
+        }
+        else if(templates)
+        {
+            for(int stringAt = 0; stringAt < int(reading.at(readingAt).size() ); stringAt++)
+            {
+                if( (reading.at(readingAt).at(stringAt) < 'A' && reading.at(readingAt).at(stringAt) != ' ') || (reading.at(readingAt).at(stringAt) > 'Z' && reading.at(readingAt).at(stringAt) < 'a') || reading.at(readingAt).at(stringAt) > 'z')
+                {
+                    reading.at(readingAt).erase(stringAt, 1);
+                    stringAt--;
+                }
+                else if(reading.at(readingAt).at(stringAt) >= 'A' && reading.at(readingAt).at(stringAt) <= 'Z')
+                {
+                    reading.at(readingAt).at(stringAt) = int(reading.at(readingAt).at(stringAt) ) + 32;
+                }
+            }
+        }
+    }
+
     bool templates = true;
     unsigned int dataAt = 0;
 
@@ -13,9 +43,9 @@ AI::AI(const std::vector<std::string> & reading)
             {
                 for(unsigned int wordsAt = 0; wordsAt < data.at(dataAt)->words.size(); wordsAt++)
                 {
-                    for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt).size(); tokenAt++)
+                    for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt)->tokens.size(); tokenAt++)
                     {
-                        if(data.at(dataAt)->words.at(wordsAt)->word == data.at(dataAt)->templates.at(templatesAt).at(tokenAt) )
+                        if(data.at(dataAt)->words.at(wordsAt)->word == data.at(dataAt)->templates.at(templatesAt)->tokens.at(tokenAt) )
                         {
                             data.at(dataAt)->words.at(wordsAt)->count++;
 
@@ -23,20 +53,20 @@ AI::AI(const std::vector<std::string> & reading)
                         }
                     }
                 }
-                for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt).size(); tokenAt++)
+                for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt)->tokens.size(); tokenAt++)
                 {
                     unsigned int wordsAt;
 
                     for(wordsAt = 0; wordsAt < data.at(dataAt)->words.size(); wordsAt++)
                     {
-                        if(data.at(dataAt)->templates.at(templatesAt).at(tokenAt) == data.at(dataAt)->words.at(wordsAt)->word)
+                        if(data.at(dataAt)->templates.at(templatesAt)->tokens.at(tokenAt) == data.at(dataAt)->words.at(wordsAt)->word)
                         {
                             break;
                         }
                     }
                     if(wordsAt >= data.at(dataAt)->words.size() )
                     {
-                        data.at(dataAt)->words.push_back(new Word(data.at(dataAt)->templates.at(templatesAt).at(tokenAt) ) );
+                        data.at(dataAt)->words.push_back(new Word(data.at(dataAt)->templates.at(templatesAt)->tokens.at(tokenAt) ) );
                     }
                 }
             }
@@ -70,25 +100,25 @@ AI::AI(const std::vector<std::string> & reading)
             }
             if(dataAt >= data.size() )
             {
-                data.push_back(new Template(line) );
+                data.push_back(new Data(input.at(readingAt), line) );
             }
             else
             {
-                data.at(dataAt)->templates.push_back(line);
+                data.at(dataAt)->templates.push_back(new Templates(input.at(readingAt), line) );
             }
         }
         else
         {
-            data.at(dataAt)->response.push_back(reading.at(readingAt) );
+            data.at(dataAt)->response.push_back(input.at(readingAt) );
         }
     }
 }
 
 AI::~AI()
 {
-    for(unsigned int dataAt = 0; dataAt < data.size(); dataAt++)
+    for(unsigned int i = 0; i < data.size(); i++)
     {
-        delete data.at(dataAt);
+        delete data.at(i);
     }
 }
 
@@ -105,6 +135,44 @@ void AI::input()
         {
             break;
         }
+        else if(text == "/chat")
+        {
+            if(data.size() == 0)
+            {
+                std::cout << "[CHAT AI] >>> [EMPTY DATABASE]" << std::endl << "> ";
+
+                continue;
+            }
+
+            unsigned int index = rand() % data.size();
+
+            std::cout << "[CHAT AI] >>> " << data.at(index)->templates.at(rand() % data.at(index)->templates.size() )->line << std::endl << ">: ";
+            getline(std::cin, text);
+            if(text.size() == 0 || text.at(0) == '/')
+            {
+                std::cout << "[CHAT AI] >>> [RESPONSE DISCARDED]";
+            }
+            else
+            {
+                unsigned int i;
+
+                for(i = 0; i < data.at(index)->response.size(); i++)
+                {
+                    if(text == data.at(index)->response.at(i) )
+                    {
+                        break;
+                    }
+                }
+                if(i >= data.at(index)->response.size() )
+                {
+                    data.at(index)->response.push_back(text);
+                }
+                std::cout << "[CHAT AI] >>> [RESPONSE RECORDED]";
+            }
+            std::cout << std::endl << "> ";
+
+            continue;
+        }
         else if(text.size() == 0 || text.at(0) == '/')
         {
             std::cout << "[CHAT AI] >>> [INVALID INPUT]" << std::endl << "> ";
@@ -118,10 +186,7 @@ void AI::input()
                 text.erase(i, 1);
                 i--;
             }
-        }
-        for(unsigned int i = 0; i < text.size(); i++)
-        {
-            if(text.at(i) >= 'A' && text.at(i) <= 'Z')
+            else if(text.at(i) >= 'A' && text.at(i) <= 'Z')
             {
                 text.at(i) = int(text.at(i) ) + 32;
             }
@@ -151,18 +216,18 @@ void AI::input()
             {
                 unsigned int count = 0;
 
-                for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt).size(); tokenAt++)
+                for(unsigned int tokenAt = 0; tokenAt < data.at(dataAt)->templates.at(templatesAt)->tokens.size(); tokenAt++)
                 {
                     for(unsigned int inputAt = 0; inputAt < input.size(); inputAt++)
                     {
-                        if(data.at(dataAt)->templates.at(templatesAt).at(tokenAt) == input.at(inputAt) )
+                        if(data.at(dataAt)->templates.at(templatesAt)->tokens.at(tokenAt) == input.at(inputAt) )
                         {
                             count++;
                         }
                     }
                 }
 
-                double value = double(count) / double(data.at(dataAt)->templates.at(templatesAt).size() );
+                double value = double(count) / double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() );
 
                 for(unsigned int wordsAt = 0; wordsAt < data.at(dataAt)->words.size(); wordsAt++)
                 {
@@ -191,7 +256,7 @@ void AI::input()
         }
         if(index > -1 && max < 1.00)
         {
-            data.at(index)->templates.push_back(input);
+            data.at(index)->templates.push_back(new Templates(text, input) );
             for(unsigned int wordsAt = 0; wordsAt < data.at(index)->words.size(); wordsAt++)
             {
                 for(unsigned int inputAt = 0; inputAt < input.size(); inputAt++)
@@ -227,16 +292,16 @@ void AI::input()
                 {
                     unsigned int tokenAt;
 
-                    for(tokenAt = 0; tokenAt < data.at(index)->templates.at(templatesAt).size(); tokenAt++)
+                    for(tokenAt = 0; tokenAt < data.at(index)->templates.at(templatesAt)->tokens.size(); tokenAt++)
                     {
-                        if(data.at(index)->words.at(wordsAt)->word == data.at(index)->templates.at(templatesAt).at(tokenAt) )
+                        if(data.at(index)->words.at(wordsAt)->word == data.at(index)->templates.at(templatesAt)->tokens.at(tokenAt) )
                         {
                             count += data.at(index)->words.at(wordsAt)->count;
 
                             break;
                         }
                     }
-                    if(tokenAt >= data.at(index)->templates.at(templatesAt).size() )
+                    if(tokenAt >= data.at(index)->templates.at(templatesAt)->tokens.size() )
                     {
                         count -= data.at(index)->words.at(wordsAt)->count;
                     }
@@ -247,9 +312,9 @@ void AI::input()
                     {
                         unsigned int tokenAt;
 
-                        for(tokenAt = 0; tokenAt < data.at(index)->templates.at(templatesAt).size(); tokenAt++)
+                        for(tokenAt = 0; tokenAt < data.at(index)->templates.at(templatesAt)->tokens.size(); tokenAt++)
                         {
-                            if(data.at(index)->words.at(wordsAt)->word == data.at(index)->templates.at(templatesAt).at(tokenAt) )
+                            if(data.at(index)->words.at(wordsAt)->word == data.at(index)->templates.at(templatesAt)->tokens.at(tokenAt) )
                             {
                                 data.at(index)->words.at(wordsAt)->count--;
                                 if(data.at(index)->words.at(wordsAt)->count == 0)
@@ -265,7 +330,7 @@ void AI::input()
         }
         else if(index <= -1)
         {
-            data.push_back(new Template(input) );
+            data.push_back(new Data(text, input) );
             index = data.size() - 1;
             for(unsigned int inputAt = 0; inputAt < input.size(); inputAt++)
             {
@@ -282,7 +347,7 @@ void AI::input()
             getline(std::cin, text);
             if(text.size() == 0 || text.at(0) == '/')
             {
-                std::cout << "[CHAT AI] >>> [RESPONSE REDACTED]" << std::endl << "> ";
+                std::cout << "[CHAT AI] >>> [RESPONSE DISCARDED]" << std::endl << "> ";
 
                 continue;
             }
@@ -295,17 +360,27 @@ void AI::input()
     return;
 }
 
-Template::Template(std::vector<std::string> & templates)
+Data::Data(std::string line, std::vector<std::string> & tokens)
 {
-    this->templates.push_back(templates);
+    this->templates.push_back(new Templates(line, tokens) );
 }
 
-Template::~Template()
+Data::~Data()
 {
-    for(unsigned int wordsAt = 0; wordsAt < words.size(); wordsAt++)
+    for(unsigned int i = 0; i < words.size(); i++)
     {
-        delete words.at(wordsAt);
+        delete words.at(i);
     }
+    for(unsigned int i = 0; i < templates.size(); i++)
+    {
+        delete templates.at(i);
+    }
+}
+
+Templates::Templates(std::string line, std::vector<std::string> & tokens)
+{
+    this->line = line;
+    this->tokens = tokens;
 }
 
 Word::Word(std::string word)

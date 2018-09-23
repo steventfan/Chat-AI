@@ -8,13 +8,13 @@ int main()
     std::string file = "data.txt";
     std::ifstream read;
 
-    std::cout << "Initializing AI Database\n" << std::endl;
+    std::cout << "[Initializing AI Database]\n" << std::endl;
 
     file = "inputs/" + file;
     read.open(file);
     if(!read)
     {
-        std::cout << "Failed to read from file " << file << std::endl;
+        std::cout << "[ERROR] Failed to read from file " << file << std::endl;
 
         return 1;
     }
@@ -30,13 +30,14 @@ int main()
     AI * container = new AI(reading);
 
     container->input();
+    std::cout << "\n[Saving AI Database]\n" << std::endl;
 
     std::ofstream write;
 
     write.open(file, std::ofstream::out | std::ofstream::trunc);
     if(!write)
     {
-        std::cout << "Failed to save to file " << file << std::endl;
+        std::cout << "[ERROR] Failed to save to file " << file << std::endl;
 
         return 1;
     }

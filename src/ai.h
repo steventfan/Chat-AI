@@ -7,7 +7,8 @@
 #include <vector>
 
 class AI;
-class Template;
+class Data;
+class Templates;
 class Word;
 
 class AI
@@ -17,24 +18,34 @@ class AI
         ~AI();
         void input();
     private:
-        std::vector<Template *> data;
+        std::vector<Data *> data;
 };
 
-class Template
+class Data
 {
     friend class AI;
     private:
-        Template(std::vector<std::string> &);
-        ~Template();
-        std::vector<std::vector<std::string> > templates;
+        Data(std::string, std::vector<std::string> &);
+        ~Data();
+        std::vector<Templates *> templates;
         std::vector<std::string> response;
         std::vector<Word *> words;
+};
+
+class Templates
+{
+    friend class AI;
+    friend class Data;
+    private:
+        Templates(std::string, std::vector<std::string> &);
+        std::string line;
+        std::vector<std::string> tokens;
 };
 
 class Word
 {
     friend class AI;
-    friend class Template;
+    friend class Data;
     private:
         Word(std::string);
         std::string word;
