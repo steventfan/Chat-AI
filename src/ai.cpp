@@ -179,16 +179,17 @@ void AI::input()
 
             continue;
         }
-        for(int i = 0; i < int(text.size() ); i++)
+        std::string parse = text;
+        for(int i = 0; i < int(parse.size() ); i++)
         {
-            if( (text.at(i) < 'A' && text.at(i) != ' ') || (text.at(i) > 'Z' && text.at(i) < 'a') || text.at(i) > 'z')
+            if( (parse.at(i) < 'A' && parse.at(i) != ' ') || (parse.at(i) > 'Z' && parse.at(i) < 'a') || parse.at(i) > 'z')
             {
-                text.erase(i, 1);
+                parse.erase(i, 1);
                 i--;
             }
-            else if(text.at(i) >= 'A' && text.at(i) <= 'Z')
+            else if(parse.at(i) >= 'A' && parse.at(i) <= 'Z')
             {
-                text.at(i) = int(text.at(i) ) + 32;
+                parse.at(i) = int(parse.at(i) ) + 32;
             }
         }
 
@@ -196,14 +197,14 @@ void AI::input()
         int index = 0;
         std::vector<std::string> input;
 
-        while( (found = text.find(' ', index) ) != std::string::npos)
+        while( (found = parse.find(' ', index) ) != std::string::npos)
         {
-            input.push_back(text.substr(index, found - index) );
+            input.push_back(parse.substr(index, found - index) );
             index = found + 1;
         }
-        if(index < int(text.size() ) )
+        if(index < int(parse.size() ) )
         {
-            input.push_back(text.substr(index, text.size() - index) );
+            input.push_back(parse.substr(index, parse.size() - index) );
         }
 
         double tolerance = 0.75;
@@ -254,7 +255,7 @@ void AI::input()
                 }
             }
         }
-        if(index > -1 && max < 1.00)
+        if(index > -1 && max < 1.5)
         {
             data.at(index)->templates.push_back(new Templates(text, input) );
             for(unsigned int wordsAt = 0; wordsAt < data.at(index)->words.size(); wordsAt++)
@@ -358,6 +359,39 @@ void AI::input()
     }
 
     return;
+}
+
+std::string AI::save(unsigned int dataAt, bool templates, int & value)
+{
+    int index = value;
+
+    value++;
+    if(templates)
+    {
+        if(value >= int(data.at(dataAt)->templates.size() ) )
+        {
+            value = -1;
+        }
+
+        return data.at(dataAt)->templates.at(index)->line;
+    }
+    if(data.at(dataAt)->response.size() == 0)
+    {
+        value = -2;
+
+        return "";
+    }
+    else if(value >= int(data.at(dataAt)->response.size() ) )
+    {
+        value = -1;
+    }
+
+    return data.at(dataAt)->response.at(index);
+}
+
+unsigned int AI::size()
+{
+    return data.size();
 }
 
 Data::Data(std::string line, std::vector<std::string> & tokens)

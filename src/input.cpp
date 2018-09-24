@@ -41,7 +41,30 @@ int main()
 
         return 1;
     }
+    for(unsigned int i = 0; i < container->size(); i++)
+    {
+        int index = 0;
+
+        while(index >= 0)
+        {
+            write << container->save(i, true, index) << '\n';
+        }
+        write << "-\n";
+        index = 0;
+        while(index >= 0)
+        {
+            std::string line = container->save(i, false, index);
+
+            if(index >= -1)
+            {
+                write << line << '\n';
+            }
+        }
+        write << "*\n";
+    }
     write.close();
+
+    std::cout << "[AI Database Save Successful]" << std::endl;
 
     delete container;
 
