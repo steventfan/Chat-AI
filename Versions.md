@@ -4,6 +4,13 @@ Written in C++
 
 ## Versions
 
+### ***23/9/2018***
+**Version 1.0.0**
+* Successfully tested, first working prototype
+* Implemented AI database file save
+* Implemented AI initiate chat
+* Optimized AI parsing
+
 ### ***22/9/2018***
 * Implemented automatic updating of AI data
 * Implemented base functions for data write to file
