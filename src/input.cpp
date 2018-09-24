@@ -41,19 +41,27 @@ int main()
 
         return 1;
     }
-    for(unsigned int i = 0; i < container->size(); i++)
+
+    int data = 0;
+
+    while(data >= 0)
     {
         int index = 0;
 
         while(index >= 0)
         {
-            write << container->save(i, true, index) << '\n';
+            std::string line = container->save(true, data, index);
+
+            if(data >= 0)
+            {
+                write << line << '\n';
+            }
         }
         write << "-\n";
         index = 0;
         while(index >= 0)
         {
-            std::string line = container->save(i, false, index);
+            std::string line = container->save(false, data, index);
 
             if(index >= -1)
             {

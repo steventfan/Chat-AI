@@ -17,8 +17,7 @@ class AI
         AI(const std::vector<std::string> &);
         ~AI();
         void input();
-        std::string save(unsigned int, bool, int &);
-        unsigned int size();
+        std::string save(bool, int &, int &);
     private:
         std::vector<Data *> data;
 };
