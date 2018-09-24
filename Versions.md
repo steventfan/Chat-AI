@@ -5,6 +5,10 @@ Written in C++
 ## Versions
 
 ### ***23/9/2018***
+**Version 1.0.1**
+* Fixed repetitive saving of existing templates and responses
+* Optimized automatic updating of AI data
+* Optimized AI communication
 **Version 1.0.0**
 * Successfully tested, first working prototype
 * Implemented AI database file save
