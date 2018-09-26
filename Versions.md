@@ -4,6 +4,11 @@ Written in C++
 
 ## Versions
 
+### ***25/9/2018***
+**Version 1.0.2**
+* Increased tolerance for string parsing and matching of AI
+* Implemented stronger randomization of AI chat initiation
+
 ### ***23/9/2018***
 **Version 1.0.1**
 * Fixed repetitive saving of existing templates and responses
