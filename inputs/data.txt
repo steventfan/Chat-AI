@@ -1,0 +1,62 @@
+Hello.
+-
+Hi.
+Hey.
+Hey there.
+*
+What are you?
+-
+I am a chat AI bot.
+I am a simple bot.
+I am a simple program.
+*
+How is the weather?
+How is the weather today?
+What is the weather today?
+-
+The weather today appears to be sunny.
+The weather seems fair today.
+The weather today is calm.
+What am I a weatherman?
+The weather is not bad today.
+The weather could be better.
+The weather is optimal today.
+*
+How are you?
+-
+I am doing fine.
+I am doing alright.
+I am doing fantastic.
+I am doing well.
+*
+What is the value of pi?
+-
+3.14 more or less.
+3.14159 more or less.
+*
+What is the meaning of life?
+-
+How should I know? I am not alive.
+The quality that distinguishes a vital and functional being from a dead body.
+*
+What can you do?
+-
+I can chat.
+I can learn to communicate.
+I can run 0's and 1's.
+*
+What is pi?
+-
+3.14
+*
+What is your purpose?
+-
+My purpose is to chat with you of course.
+To learn how to communicate.
+*
+Hi.
+-
+Hello.
+Hello there.
+Hi.
+*

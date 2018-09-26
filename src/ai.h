@@ -2,9 +2,10 @@
 #define AI_H
 
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 class AI;
 class Data;

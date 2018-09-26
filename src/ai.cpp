@@ -120,7 +120,7 @@ AI::~AI()
 
 void AI::input()
 {
-    srand(data.size() % 9999);
+    srand(time(NULL) );
 
     std::string text;
 
@@ -135,7 +135,7 @@ void AI::input()
         {
             if(data.size() == 0)
             {
-                std::cout << "[CHAT AI] >>> [EMPTY DATABASE]" << std::endl << "> ";
+                std::cout << "[CHAT AI] >>> [EMPTY DATABASE]" << std::endl;
             }
             else
             {
@@ -201,7 +201,7 @@ void AI::input()
                 input.push_back(parse.substr(index, parse.size() - index) );
             }
 
-            double tolerance = 0.75;
+            double tolerance = 0.90;
             double max = 0.0;
             double check = 0.0;
 
