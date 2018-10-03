@@ -22,4 +22,4 @@ Repeat for each template and response object.
 \[\] denotes optional parameters\
 Each parameter can have multiple lines of text.
 
-When writing the AI database to file, the program will automatically save in the syntax format.
+When the program writes the AI database to file, the program will automatically save in the syntax format above.
