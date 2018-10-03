@@ -17,7 +17,7 @@ The AI initializes its database from the text file *data.txt* in the *inputs/* f
 
 Repeat for each template and response object.
 
-**Note:**\
+*Note:*\
 \<\> denotes required parameters\
 \[\] denotes optional parameters\
 Each parameter can have multiple lines of text.
