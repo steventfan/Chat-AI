@@ -225,7 +225,15 @@ void AI::input()
                         }
                     }
 
-                    double value = double(count) / double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() );
+                    double value;
+                    if(double(count) / double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() ) < double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() ) / double(count) )
+                    {
+                        value = double(count) / double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() );
+                    }
+                    else
+                    {
+                        value = double(data.at(dataAt)->templates.at(templatesAt)->tokens.size() ) / double(count);
+                    }
                     double checks = value;
 
                     for(unsigned int wordsAt = 0; wordsAt < data.at(dataAt)->words.size(); wordsAt++)
