@@ -4,6 +4,10 @@ Written in C++
 
 ## Versions
 
+### ***14/10/2018***
+**Version 1.0.3**
+* Altered toleration calculation for dialogue input with significantly larger word count than its respective templates
+
 ### ***25/9/2018***
 **Version 1.0.2**
 * Increased tolerance for string parsing and matching of AI
